@@ -4,7 +4,7 @@ TRAPI_URL = 'http://api1.osm.absolight.net/api/0.6/map?tile=%s'
 DELAY_SECS = 300
 MAX_TRIES = 3
 ZOOM_LEVEL = 14
-LOAD_COMMAND = 'ls %s' # TODO
+LOAD_COMMAND = 'osm2pgsql %s'
 
 
 class TrapiOfflineException(Exception):
