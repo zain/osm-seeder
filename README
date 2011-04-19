@@ -1,0 +1,20 @@
+seed-osm.py is a script that takes a bounding box and fetches OSM data from the TRAPI for that bounding box.
+
+Modify config variables at the top of seed-osm.py to adjust fetching/retry behavior.
+
+
+$ python seed-osm.py 37.697 -122.528 37.803 -122.332
+Found 4 tiles at zoom level 14.
+- Fetching: http://api1.osm.absolight.net/api/0.6/map?tile=14,2624,6331
+Success! 228352b fetched in 264s.
+- Fetching: http://api1.osm.absolight.net/api/0.6/map?tile=14,2615,6331
+Success! 199561b fetched in 392s.
+- Fetching: http://api1.osm.absolight.net/api/0.6/map?tile=14,2615,6337
+Success! 286029b fetched in 253s.
+- Fetching: http://api1.osm.absolight.net/api/0.6/map?tile=14,2624,6337
+Success! 210403b fetched in 240s.
+osm2pgsql 14-2624-6331.osm
+osm2pgsql 14-2615-6331.osm
+osm2pgsql 14-2615-6337.osm
+osm2pgsql 14-2624-6337.osm
+Updated 4 tiles in 1160s.
