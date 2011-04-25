@@ -1,13 +1,13 @@
 import httplib2, ModestMaps, os, sys, time
 
-TRAPI_URL = 'http://api1.osm.absolight.net/api/0.6/map?tile=%s'
+API_URL = 'http://api.openstreetmap.org/api/0.6/map?bbox=%s'
 DELAY_SECS = 300
 MAX_TRIES = 3
 ZOOM_LEVEL = 14
 LOAD_COMMAND = 'osm2pgsql %s'
 
 
-class TrapiOfflineException(Exception):
+class APIOfflineException(Exception):
     pass
 
 
@@ -46,7 +46,7 @@ class OSMSeeder:
 
     def url_for(self, z, x, y):
         tile = "%s,%s,%s" % (z, x, y)
-        return TRAPI_URL % tile
+        return API_URL % tile
 
     def fetch(self, url):
         self.log("- Fetching: %s" % url)
@@ -57,7 +57,7 @@ class OSMSeeder:
         while True:
             resp, content = h.request(url)
 
-            if resp['status'] == 200:
+            if resp['status'] == '200':
                 self.log("Success! %sb fetched in %ss." % (len(content), time.time() - start_time))
                 return content
 
@@ -65,7 +65,7 @@ class OSMSeeder:
 
             tries += 1
             if tries > MAX_TRIES:
-                raise TrapiOfflineException("Giving up after %s tries on %s" % (MAX_TRIES, url))
+                raise APIOfflineException("Giving up after %s tries on %s" % (MAX_TRIES, url))
 
             time.sleep(DELAY_SECS)
 
