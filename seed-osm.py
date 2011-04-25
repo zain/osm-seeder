@@ -1,10 +1,10 @@
 import httplib2, ModestMaps, os, sys, time
 
 API_URL = 'http://api.openstreetmap.org/api/0.6/map?bbox=%s'
-DELAY_SECS = 300
+DELAY_SECS = 3
 MAX_TRIES = 3
-ZOOM_LEVEL = 16
-LOAD_COMMAND = 'osm2pgsql --append --database=gis --username=postgres -W %s'
+ZOOM_LEVEL = 17
+LOAD_COMMAND = 'osm2pgsql --append --database=gis %s'
 
 
 class APIOfflineException(Exception):
@@ -41,9 +41,9 @@ class OSMSeeder:
             f.write(content)
             f.close()
 
-            print "------------[Loading...]------------"
+            self.log("------------[Loading...]------------")
             os.system(LOAD_COMMAND % filename)
-            print "-------------[Finished]-------------"
+            self.log("-------------[Finished]-------------")
 
         self.log("Updated in %ss." % (time.time() - start_time))
 
@@ -58,7 +58,7 @@ class OSMSeeder:
         return API_URL % bbox
 
     def fetch(self, url):
-        self.log("- Fetching: %s" % url)
+        self.log("\n- Fetching: %s" % url)
         h = httplib2.Http()
         start_time = time.time()
         tries = 0
